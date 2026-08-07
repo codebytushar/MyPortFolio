@@ -11,7 +11,7 @@ export default function Home() {
     <main className="min-h-screen px-6 py-12 md:py-20 max-w-5xl mx-auto font-sans">
       {/* Header Section */}
       <header className="mb-16 border-b border-gray-200 pb-10">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">Tushar R. Gohil</h1>
+        <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">XYZ</h1>
         <h2 className="text-xl md:text-2xl text-slate-600 mt-4 font-medium">Assistant Professor | Full-Stack Developer | Cloud & Cyber Security Expert</h2>
         <p className="mt-6 text-lg text-slate-700 max-w-3xl leading-relaxed">
           M.Tech in Computer Science and Engineering with over 21 years of professional teaching experience. 
