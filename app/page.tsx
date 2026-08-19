@@ -19,7 +19,7 @@ export default async function Home() {
       {/* Header & Profile Photo from S3 */}
       <header className="mb-16 border-b border-gray-200 pb-10 flex flex-col md:flex-row items-center gap-8">
         <div className="relative w-36 h-36 rounded-full overflow-hidden border-4 border-indigo-600 shadow-lg">
-          <Image alt="Profile Photo" className="object-cover" fill priority src="https://uzyaflbndb2rjpmv.public.blob.vercel-storage.com/logo.png"/>
+          <img src="https://uzyaflbndb2rjpmv.public.blob.vercel-storage.com/logo.png"/>
         </div>
         <div>
           <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">Your Name</h1>
