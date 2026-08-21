@@ -1,37 +1,45 @@
-import React from 'react';
 import Image from 'next/image';
 import { sql } from '@vercel/postgres';
 
 export default async function Home() {
-  // Fetch data directly from Vercel Postgres
   const { rows: projects } = await sql`
-    SELECT id, title, description, s3_image_url, tech_stack 
-    FROM projects 
+    SELECT id, title, description, s3_image_url AS image_url, tech_stack
+    FROM projects
     ORDER BY created_at DESC
   `;
 
-  // Replace with your actual S3 URLs for the header
-  const S3_BUCKET_URL = "https://gtushar-cc-odd2026.s3.ap-south-1.amazonaws.com";
+  const VERCEL_STORAGE_URL = 'https://uzyaflbndb2rjpmv.public.blob.vercel-storage.com';
+  const normalizeImageUrl = (url?: string) => {
+    if (!url) return `${VERCEL_STORAGE_URL}/logo.png`;
+    if (url.startsWith('http')) {
+      return url.replace(/https?:\/\/[^/]+/, VERCEL_STORAGE_URL);
+    }
+    return `${VERCEL_STORAGE_URL}/${url.replace(/^\//, '')}`;
+  };
 
   return (
     <main className="min-h-screen px-6 py-12 max-w-5xl mx-auto font-sans">
-      
-      {/* Header & Profile Photo from S3 */}
       <header className="mb-16 border-b border-gray-200 pb-10 flex flex-col md:flex-row items-center gap-8">
         <div className="relative w-36 h-36 rounded-full overflow-hidden border-4 border-indigo-600 shadow-lg">
-          <img src="https://uzyaflbndb2rjpmv.public.blob.vercel-storage.com/logo.png"/>
+          <Image
+            src={`${VERCEL_STORAGE_URL}/logo.png`}
+            alt="Profile photo"
+            width={144}
+            height={144}
+            className="object-cover"
+          />
         </div>
         <div>
           <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">Your Name</h1>
           <h2 className="text-xl text-slate-600 mt-2 font-medium">Full-Stack Developer | Cloud & Security Enthusiast</h2>
           <div className="mt-6">
-            <a 
-              href={`${S3_BUCKET_URL}/resume.pdf`}
+            <a
+              href={`${VERCEL_STORAGE_URL}/resume.pdf`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-indigo-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-indigo-700 transition"
             >
-              📄 Download Resume (S3)
+              📄 Download Resume (Vercel Storage)
             </a>
           </div>
         </div>
@@ -43,10 +51,10 @@ export default async function Home() {
           {projects.map((project) => (
             <div key={project.id} className="border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition">
               <div className="relative h-48 w-full bg-gray-100">
-                <Image 
-                  src={project.s3_image_url} 
-                  alt={project.title} 
-                  fill 
+                <Image
+                  src={normalizeImageUrl(project.image_url)}
+                  alt={project.title}
+                  fill
                   className="object-cover"
                 />
               </div>
